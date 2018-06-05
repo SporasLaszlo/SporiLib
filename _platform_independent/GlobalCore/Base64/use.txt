@@ -1,0 +1,27 @@
+	//Image teszt
+	cv::Mat testImg = cv::imread("SavedImage/img_1.jpg", 0);
+	cv::namedWindow("OriginalImage", CV_WINDOW_FREERATIO | CV_WINDOW_NORMAL);
+	cv::imshow("OriginalImage", testImg);
+	cv::waitKey(0);
+	
+	//for (int i = 0; i < 20; ++i)
+	//{
+		CRunTime::EXT_SetStartTime();
+		int encodeImgLength = Base64encode_len(testImg.rows * testImg.cols);
+		char *encodedImg = new char[encodeImgLength];
+		Base64encode(encodedImg, (const char*)testImg.data, testImg.rows * testImg.cols);
+		CRunTime::EXT_SetFinishTime();
+	//}
+	
+	//for (int i = 0; i < 20; ++i)
+	//{
+		CRunTime::EXT_SetStartTime();
+		int decodedImgLength = Base64decode_len(encodedImg);
+		cv::Mat decodedImg = cv::Mat::zeros(testImg.rows, testImg.cols, testImg.type());
+		Base64decode((char*)decodedImg.data, encodedImg);
+		CRunTime::EXT_SetFinishTime();
+	//}
+	
+	cv::namedWindow("DecodedImg", CV_WINDOW_FREERATIO | CV_WINDOW_NORMAL);
+	cv::imshow("DecodedImg", decodedImg);
+	cv::waitKey(0);
